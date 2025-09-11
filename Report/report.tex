@@ -154,6 +154,118 @@ The third not confluent, terminating and unique normal form is impossible becaus
 
 When relating to programming, if a system is confluent but not terminating, like in some programs with infinite loops, how does confluence still guarantee that the result of a program is unique when it exists?
 
+\subsection{Week 3}
+
+\subsubsection{Homework}
+
+Here is the work on ARS rewriting HW:
+
+
+\textbf{Exercise 5:}
+
+\begin{itemize}
+    \item Reduce some example strings such as \texttt{abba} and \texttt{bababa}.
+    \[
+    abba \to baba \to baab \to bb \to b \to \{\}
+    \]
+    \[
+    bababa \to baabba \to bbba \to bba \to ba \to a
+    \]
+
+    \item Why is the ARS not terminating? \\
+    The ARS is not terminating because you can infinitely go from $ab$ to $ba$ and vice versa.
+
+    \item How many equivalence classes does $\leftrightarrow^*$ have? Can you describe them in a nice way? What are the normal forms? \\
+    There are two equivalence classes: words with an even number of $a$’s vs words with an odd number of $a$’s. \\
+    The normal forms are the empty string $\{\}$ and the string \texttt{a}.
+
+    \item Can you change the rules so that the ARS becomes terminating without changing its equivalence classes? \\
+    You can change $ba \to ab$ to $ba \to b$. This keeps the same equivalence classes but makes the system terminating.
+
+    \item Write down a question or two about strings that can be answered using the ARS. \\
+    \begin{itemize}
+        \item Does this string reduce to the empty string?
+        \item Are two given strings equivalent under the ARS?
+    \end{itemize}
+\end{itemize}
+
+\bigskip
+
+\textbf{Exercise 5b:}
+
+\begin{itemize}
+    \item Reduce some example strings such as \texttt{abba} and \texttt{bababa}.
+    \[
+    abba \to baba \to baab \to bab \to ba \to a
+    \]
+    \[
+    bababa \to baabba \to babba \to baba \to aba \to aa \to a
+    \]
+
+    \item Why is the ARS not terminating? \\
+    The ARS is not terminating because you can infinitely go from $ab$ to $ba$ and vice versa.
+
+    \item How many equivalence classes does $\leftrightarrow^*$ have? Can you describe them in a nice way? What are the normal forms? \\
+    There is one equivalence class: all words reduce to one $a$. \\
+    The normal form is just \texttt{a}.
+
+    \item Can you change the rules so that the ARS becomes terminating without changing its equivalence classes? \\
+    You can change $ba \to ab$ to $ba \to b$. This keeps the same equivalence classes but makes the system terminating.
+
+    \item Write down a question or two about strings that can be answered using the ARS. \\
+    \begin{itemize}
+        \item Is there a unique normal form for this ARS?
+        \item Are two given strings equivalent under the ARS?
+    \end{itemize}
+\end{itemize}
+
+
+\textbf{Bonus: Exercise 8}
+
+\begin{itemize}
+    \item Starting configuration:
+    \[
+    aaaaaaaaaaaaaaabbbbbbbbbbbbbbccccccccccccc
+    \]
+    \[
+    \to^*
+    acccccccccccccccccccccccccccccccccccccccc
+    \]
+    \[
+    \to
+    bbcccccccccccccccccccccccccccccccccccccccc
+    \]
+    \[
+    \to^*
+    bbbbbbbbcccccccccccccccccccccccccccccccccc
+    \]
+
+    \item It is impossible to reach a configuration of only $a$’s, only $b$’s, or only $c$’s.  
+
+    \item At each step, the rules correspond to the following change-vectors:
+    \[
+    (a-1,\,b-1,\,c+2), \quad
+    (a-1,\,b+2,\,c-1), \quad
+    (a+2,\,b-1,\,c-1)
+    \]
+
+    \item Reducing these modulo $3$ gives
+    \[
+    (-1,\,-1,\,-1)
+    \]
+    for each move (since $+2 \equiv -1 \pmod{3}$).  
+
+    \item Thus, we can simply subtract the numbers of $a$’s, $b$’s, and $c$’s directly:
+    \[
+    a-b = 15 - 14 = 1 \pmod{3}
+    \]
+    \[
+    b-c = 14 - 13 = 1 \pmod{3}
+    \]
+
+    \item Since these differences never reduce to $0$, there will always be one leftover letter that prevents the string from reducing to a uniform string of only $a$’s, $b$’s, or $c$’s.
+\end{itemize}
+
 \section{Essay}
 
 \section{Evidence of Participation}
