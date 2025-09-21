@@ -270,6 +270,81 @@ Here is the work on ARS rewriting HW:
 \addcontentsline{toc}{subsubsection}{2.3.2    Questions} % adds Questions as a link under 2.3.2
 Given the rules for changing letters in Exercise 8 ARS, why is it impossible to end up with a string containing only one type of letter, and how can we use modular arithmetic to prove it?
 
+
+\subsection{Week 4}
+
+\subsubsection{Homework}
+
+\textbf{HW 4.1} \\
+
+Consider the following algorithm:
+
+\begin{lstlisting}
+while b != 0:
+    temp = b
+    b = a mod b
+    a = temp
+return a
+\end{lstlisting}
+
+Under certain conditions this algorithm always terminates.  
+In order for the algorithm to terminate:  
+\begin{itemize}
+    \item b >= 0
+    \item a >= 0
+    \item a and b must be integers, since doubles may cause unexpected mod results
+\end{itemize}
+
+A suitable measure function is:
+\[
+m(a,b) = b
+\]
+
+Proof of termination: Each iteration replaces $b$ with $a \mod b$, which is always strictly smaller than the previous $b$ but still nonnegative. Since $b$ is a nonnegative integer, it cannot decrease indefinitely, so eventually $b = 0$ and the loop terminates.
+
+\bigskip
+
+\textbf{HW 4.2} \\
+
+Consider the following fragment of an implementation of merge sort:
+
+\begin{lstlisting}
+function merge_sort(arr, left, right):
+    if left >= right:
+        return
+    mid = (left + right) / 2
+    merge_sort(arr, left, mid)
+    merge_sort(arr, mid+1, right)
+    merge(arr, left, mid, right)
+\end{lstlisting}
+
+We define the measure function:
+
+\[
+m(left,right) = right - left + 1
+\]
+
+Proof:  
+\begin{itemize}
+    \item $m$ maps to positive integers when $left \leq right$ since $m \geq 1$. If $left \geq right$ the function returns immediately (base case).
+    \item If $left < right$ then $left \leq mid < right$, so both recursive calls shrink the measure:
+    \[
+    m(left,mid) = mid - left + 1 < right - left + 1 = m(left,right)
+    \]
+    \[
+    m(mid+1,right) = right - mid < right - left + 1 = m(left,right)
+    \]
+    Thus both recursive calls are on strictly smaller natural numbers.
+    \item The natural numbers have no infinite strictly decreasing sequence, so repeated decreases of $m$ force termination.
+\end{itemize}
+
+Therefore $m(left,right) = right - left + 1$ is a valid measure function for merge\_sort: it is integer-valued, nonnegative, and strictly decreases on every recursive call.
+
+\subsubsection{Questions}
+
+Question: In a recursive backtracking algorithm, the procedure explores possible options and recurses until either a valid solution is found or all possibilities are exhausted. Since recursion can branch in many ways, how can we define a measure function that guarantees termination of the backtracking process, and what does this reveal about the relationship between the number of remaining choices and the maximum recursive depth?
+
+
 \section{Essay}
 
 \section{Evidence of Participation}
