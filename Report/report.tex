@@ -344,6 +344,49 @@ Therefore $m(left,right) = right - left + 1$ is a valid measure function for mer
 
 Question: In a recursive backtracking algorithm, the procedure explores possible options and recurses until either a valid solution is found or all possibilities are exhausted. Since recursion can branch in many ways, how can we define a measure function that guarantees termination of the backtracking process, and what does this reveal about the relationship between the number of remaining choices and the maximum recursive depth?
 
+\subsection{Week 5}
+
+\subsubsection{Homework}
+
+Here is the work on the lambda calculus evaluation:
+
+\[
+(\lambda f.\,\lambda x.\,f(f(x))) \; (\lambda f.\,\lambda x.\,f(f(f \, x)))
+\]
+
+Rename \(f \mapsto g\) and \(x \mapsto z\) in the second term:
+
+\[
+(\lambda f.\,\lambda x.\,f(f(x))) \; (\lambda g.\,\lambda z.\,g(g(g z)))
+\]
+
+\[
+\to \; (\lambda x.\,(\lambda g.\,\lambda z.\,g(g(g z))) \; ((\lambda g.\,\lambda z.\,g(g(g z))) \, x))
+\]
+
+\[
+\to \; (\lambda x.\,(\lambda g.\,\lambda z.\,g(g(g z))) \; (\lambda z.\,x(x(x z))))
+\]
+
+\[
+\to \; (\lambda x.\,\lambda z.\,((\lambda z.\,x(x(x z))))(((\lambda z.\,x(x(x z))))(((\lambda z.\,x(x(x z)))) z)))
+\]
+
+\[
+\to \; (\lambda x.\,\lambda z.\,((\lambda z.\,x(x(x z)))) \; ((\lambda z.\,x(x(x z)))) \; (x(x(x z)))))
+\]
+
+\[
+\to \; (\lambda x.\,\lambda z.\,((\lambda z.\,x(x(x z)))) \; (x(x(x(x(x(x z))))))))
+\]
+
+\[
+\to \; (\lambda x.\,\lambda z.\,x(x(x(x(x(x(x(x(x z))))))))))
+\]
+
+\subsubsection{Questions}
+
+Why is α-equivalence considered fundamental in the lambda calculus, and how does it affect the way we define substitution and reduction?
 
 \section{Essay}
 
