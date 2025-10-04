@@ -388,6 +388,86 @@ Rename \(f \mapsto g\) and \(x \mapsto z\) in the second term:
 
 Why is α-equivalence considered fundamental in the lambda calculus, and how does it affect the way we define substitution and reduction?
 
+
+\subsection{Week 6}
+
+\subsubsection{Homework}
+
+Here is the step-by-step evaluation of the factorial function in $\lambda$-calculus:
+
+\[
+\text{let rec fact} = \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * \text{fact}(n-1) \text{ in fact } 3
+\]
+
+\[
+\to (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1)))\, 3
+\]
+
+\[
+\to ((\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1)) \; (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1)))) \; 3
+\]
+
+\[
+\to (\lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (n-1))) \; 3
+\]
+
+\[
+\to \text{if } 3=0 \text{ then } 1 \text{ else } 3 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (3-1))
+\]
+
+\[
+\to 3 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) \; 2)
+\]
+
+\[
+\to 3 * ((\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1)) \; (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1)))) \; 2)
+\]
+
+\[
+\to 3 * (\lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (n-1))) \; 2
+\]
+
+\[
+\to 3 * (\text{if } 2=0 \text{ then } 1 \text{ else } 2 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (2-1)))
+\]
+
+\[
+\to 3 * 2 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) \; 1)
+\]
+
+\[
+\to 3 * 2 * (\lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (n-1))) \; 1
+\]
+
+\[
+\to 3 * 2 * (\text{if } 1=0 \text{ then } 1 \text{ else } 1 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (1-1)))
+\]
+
+\[
+\to 3 * 2 * 1 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) \; 0)
+\]
+
+\[
+\to 3 * 2 * 1 * (\lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (n-1))) \; 0
+\]
+
+\[
+\to 3 * 2 * 1 * (\text{if } 0=0 \text{ then } 1 \text{ else } 0 * (\text{fix}(\lambda f.\, \lambda n.\, \text{if } n=0 \text{ then } 1 \text{ else } n * f(n-1))) (0-1)))
+\]
+
+\[
+\to 3 * 2 * 1 * 1 = 6
+\]
+
+\bigskip
+
+\subsubsection{Questions}
+
+In this example, the fix operator allows us to define recursive behavior without explicit recursion syntax.  
+How does the use of fix in $\lambda$-calculus compare to the use of recursion in functional programming languages,  
+and why is this fixed-point construction needed for expressing general recursive functions in a purely functional system?
+
+
 \section{Essay}
 
 \section{Evidence of Participation}
