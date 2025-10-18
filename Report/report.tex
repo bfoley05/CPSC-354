@@ -469,15 +469,79 @@ and why is this fixed-point construction needed for expressing general recursive
 
 \subsection{Week 7}
 
+\subsubsection{Homework}
 Here is my homework for context free gramar trees:
 
 \begin{center}
 \includegraphics[width=1\textwidth, angle=270]{../img/IMG_2886.jpg}
 \end{center}
 
-\subsubsection{Homework}
-In context-free grammars, how does introducing precedence levels (like Exp, Exp1, Exp2) formally enforce operator precedence compared to simply defining Exp -> Exp '+' Exp | Exp '*' Exp | Integer?
 \subsubsection{Questions}
+In context-free grammars, how does introducing precedence levels (like Exp, Exp1, Exp2) formally enforce operator precedence compared to simply defining Exp -> Exp '+' Exp | Exp '*' Exp | Integer?
+
+\subsection{Week 8}
+
+\subsubsection{Homework}
+
+Here is my work for the Lean proofs from the report.txt file:
+
+\textbf{Level 5:}
+\begin{lstlisting}
+rw [add_zero]
+rw [add_zero]
+rfl
+\end{lstlisting}
+
+\textbf{Level 6:}
+\begin{lstlisting}
+rw [add_zero c]
+rw [add_zero b]
+rfl
+\end{lstlisting}
+
+\textbf{Level 7:}
+\begin{lstlisting}
+rw [one_eq_succ_zero]
+rw [add_succ]
+rw [add_zero]
+rfl
+\end{lstlisting}
+
+\textbf{Level 8:}
+\begin{lstlisting}
+nth_rewrite 2 [two_eq_succ_one]
+rw [add_succ]
+rw [succ_eq_add_one]
+nth_rewrite 1 [two_eq_succ_one]
+rw [succ_eq_add_one]
+rw [four_eq_succ_three]
+nth_rewrite 1 [succ_eq_add_one]
+rw [three_eq_succ_two]
+rw [succ_eq_add_one]
+rw [two_eq_succ_one]
+rw [succ_eq_add_one]
+rfl
+\end{lstlisting}
+
+\subsubsection{Natural Language Proof (for Level 7)}
+In natural lanuguage we start with the statement that \(1 + a = \text{succ}(a)\), where \(\text{succ}(x)\) denotes the successor of \(x\) (that is, \(x + 1\)).
+
+\begin{enumerate}
+    \item By definition, \(1 = \text{succ}(0)\).
+    \item Substitute this into the left-hand side: \(\text{succ}(0) + a\).
+    \item Using the recursive definition of addition, \(\text{succ}(m) + n = \text{succ}(m + n)\).  
+          So, \(\text{succ}(0) + a = \text{succ}(0 + a)\).
+    \item Next, by the base case of addition, \(0 + a = a\).
+    \item Therefore, \(\text{succ}(0 + a) = \text{succ}(a)\).
+    \item Hence, \(1 + a = \text{succ}(a)\).
+\end{enumerate}
+
+this shows that the proof follows directly from the base and inductive definitions of addition and the successor function in arithmetic.
+
+\subsubsection{Questions}
+
+When mathematicians informally rely on “obvious” or “intuitive” steps (like symmetry or associativity), 
+how can such steps be represented in formal verification systems?  
 
 
 \section{Essay}
