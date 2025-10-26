@@ -544,6 +544,86 @@ When mathematicians informally rely on “obvious” or “intuitive” steps (l
 how can such steps be represented in formal verification systems?  
 
 
+\subsection{Week 9}
+
+\subsubsection{Homework}
+
+Here is my work for the Lean induction proofs:
+
+\textbf{Exercise 1:}
+\begin{lstlisting}
+induction n
+rw [add_zero]
+rfl
+rw [add_succ]
+rw [n_ih]
+rfl
+\end{lstlisting}
+
+\textbf{Exercise 2:}
+\begin{lstlisting}
+induction b
+repeat rw [add_zero]
+rfl
+repeat rw [add_succ]
+rw [n_ih]
+rfl
+\end{lstlisting}
+
+\textbf{Exercise 3:}
+\begin{lstlisting}
+induction b
+rw [add_zero]
+rw [zero_add]
+rfl
+rw [add_succ] 
+rw [succ_add] 
+rw [n_ih] 
+rfl
+\end{lstlisting}
+
+\textbf{Exercise 4:}
+\begin{lstlisting}
+induction c 
+repeat rw 
+[add_zero] 
+rfl repeat 
+rw [add_succ] 
+rw [n_ih] 
+rfl
+\end{lstlisting}
+
+\textbf{Exercise 5 (No Induction):}
+\begin{lstlisting}
+rw [add_assoc] 
+rw [add_assoc] 
+rw [add_comm b c] 
+rfl
+\end{lstlisting}
+
+\textbf{Exercise 5 (Induction):}
+\begin{lstlisting}
+induction b 
+rw [add_zero] 
+rw [add_zero] 
+rfl rw [add_succ] 
+rw [succ_add] 
+rw [add_succ]
+rw [n_ih] 
+rfl
+\end{lstlisting}
+
+Pen and paper proof for exercie 5:
+
+\includegraphics[width=0.8\textwidth, angle=270]{../img/IMG_2973.jpg}
+
+
+\subsubsection{Questions}
+
+When performing induction in Lean, why is it necessary to explicitly handle both the base and inductive cases,  
+and how does Lean’s treatment of recursive definitions ensure that each step of the induction corresponds to a structurally smaller argument?
+
+
 \section{Essay}
 
 \section{Evidence of Participation}
