@@ -623,6 +623,36 @@ Pen and paper proof for exercie 5:
 When performing induction in Lean, why is it necessary to explicitly handle both the base and inductive cases,  
 and how does Lean’s treatment of recursive definitions ensure that each step of the induction corresponds to a structurally smaller argument?
 
+\subsection{Week 10}
+
+This week, we continued working in Lean, focusing on constructing proofs using \texttt{exact} statements and lambda expressions (\(\lambda\)).
+
+\begin{enumerate}
+\item \textbf{Exercise 6:} 
+\[
+\texttt{exact } \lambda c \mapsto \texttt{and\_intro } c \gg h
+\]
+
+\item \textbf{Exercise 7:} 
+\[
+\texttt{exact } \lambda\langle c, d \rangle \mapsto h\ c\ d
+\]
+
+\item \textbf{Exercise 8:}
+\[
+\texttt{exact } \lambda (s : S) \mapsto \texttt{and\_intro } (h.\text{left}\ s)\ (h.\text{right}\ s)
+\]
+
+\item \textbf{Exercise 9:}
+\[
+\texttt{exact } \lambda (r : R) \mapsto \texttt{and\_intro } (\lambda (\_ : S) \mapsto r)\ (\lambda (\_ : \neg S) \mapsto r)
+\]
+\end{enumerate}
+
+\subsubsection{Questions}
+
+\textbf{Question:} How does Lean use $\lambda$-abstraction and \texttt{and\_intro} to represent logical conjunction ($\wedge$) in proofs?
+
 
 \section{Essay}
 
