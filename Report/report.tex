@@ -653,6 +653,35 @@ This week, we continued working in Lean, focusing on constructing proofs using \
 
 \textbf{Question:} How does Lean use $\lambda$-abstraction and \texttt{and\_intro} to represent logical conjunction ($\wedge$) in proofs?
 
+\subsection{Week 11}
+
+This week, we continued working in Lean, focusing on constructing proofs using negation.
+
+\begin{enumerate}
+\item \textbf{Exercise 9:} 
+\[
+\texttt{exact } \lambda (a : P \wedge A) \mapsto h\ a.\text{left}\ a.\text{right}
+\]
+
+\item \textbf{Exercise 10:} 
+\[
+\texttt{exact } \lambda (p : P)\ (a : A) \mapsto h\ (\texttt{and\_intro}\ p\ a)
+\]
+
+\item \textbf{Exercise 11:}
+\[
+\texttt{exact } \lambda a \mapsto h\ (\lambda na \mapsto na\ a)
+\]
+
+\item \textbf{Exercise 12:}
+\[
+\texttt{exact } \lambda nb \mapsto h\ (nb \gg \texttt{false\_elim})
+\]
+\end{enumerate}
+
+\subsubsection{Questions}
+
+\textbf{Question:} How can falsification be modeled within Lean’s constructive logic, where the law of excluded middle does not hold, and what does this reveal about representing scientific reasoning in type theory?
 
 \section{Essay}
 
