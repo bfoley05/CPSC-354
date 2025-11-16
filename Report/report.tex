@@ -683,6 +683,106 @@ This week, we continued working in Lean, focusing on constructing proofs using n
 
 \textbf{Question:} How can falsification be modeled within Lean’s constructive logic, where the law of excluded middle does not hold, and what does this reveal about representing scientific reasoning in type theory?
 
+\subsection{Week 12}
+
+\subsubsection{Homework}
+
+Here is my work on the Towers of Hanoi problem with 5 disks:
+
+\begin{verbatim}
+hanoi 5 0 2
+    hanoi 4 0 1
+        hanoi 3 0 2
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+            move 0 2
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+        move 0 1
+        hanoi 3 2 1
+            hanoi 2 2 0
+                hanoi 1 2 1 = move 2 1
+                move 2 0
+                hanoi 1 1 0 = move 1 0
+            move 2 1
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+    move 0 2
+    hanoi 4 1 2
+        hanoi 3 1 0
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+            move 1 0
+            hanoi 2 2 0
+                hanoi 1 2 1 = move 2 1
+                move 2 0
+                hanoi 1 1 0 = move 1 0
+        move 1 2
+        hanoi 3 0 2
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+            move 0 2
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+
+
+move 0 2
+move 0 1
+move 2 1
+move 0 2
+move 1 0
+move 1 2
+move 0 2
+move 0 1
+move 2 1
+move 2 0
+move 1 0
+move 2 1
+move 0 2
+move 0 1
+move 2 1
+move 0 2
+move 1 0
+move 1 2
+move 0 2
+move 1 0
+move 2 1
+move 2 0
+move 1 0
+move 1 2
+move 0 2
+move 0 1
+move 2 1
+move 0 2
+move 1 0
+move 1 2
+move 0 2
+\end{verbatim}
+
+The Towers of Hanoi solution for 5 disks requires 31 moves, which follows the formula $2^n - 1$ where $n$ is the number of disks.
+
+Here is a visualization of the completed Towers of Hanoi with all 5 rings moved from peg 1 to peg 3:
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../img/hanoi.png}
+\end{center}
+
+\subsubsection{Questions}
+
+How does the recursive solution for $n$ disks relate to the mathematical proof that the minimal number of moves required is $2^n - 1$, and what insights does this provide about the relationship between recursive algorithms and mathematical induction?
+
 \section{Essay}
 
 \section{Evidence of Participation}
