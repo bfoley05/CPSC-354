@@ -783,6 +783,161 @@ Here is a visualization of the completed Towers of Hanoi with all 5 rings moved 
 
 How does the recursive solution for $n$ disks relate to the mathematical proof that the minimal number of moves required is $2^n - 1$, and what insights does this provide about the relationship between recursive algorithms and mathematical induction?
 
+\subsection{Week 13}
+
+\subsubsection{Homework}
+
+\textbf{Question 1: Does our Python implementation of lambda calculus conforms to its specification given by its mathematical theory?}
+
+After reviewing the specifications of lambda calculus and comparing it to our Python implementation, I think that there are some discrepancies that indicate our implementation does not fully conform to the specification.
+
+\textbf{Question 2: Testing Lambda Expressions}
+
+I created some more test cases in \texttt{test.lc}:
+
+\begin{lstlisting}
+// Basic identity function
+(\x.x) a
+
+// Function application associativity
+a b c d
+(a)
+
+// Church booleans
+(\x.\y.x) a b // true - should return a
+(\x.\y.y) a b // true - should return b
+
+// Church numerals and arithmetic
+(\f.\x.f(f x)) // Church numeral 2
+(\f.\x.f(f(f x))) // Church numeral 3
+
+// Multiplication: 2 * 3 = 6
+((\m.\n. m n) (\f.\x. f (f x))) (\f.\x. f (f (f x)))
+\end{lstlisting}
+
+\textbf{Expected vs Actual Results:}
+\begin{itemize}
+\item \texttt{(\textbackslash x.x) a} → \texttt{a} ✓ (identity function applied to a)
+\item \texttt{a b c d} → \texttt{(((a b) c) d)} ✓ (left-associativity)
+\item \texttt{(a)} → \texttt{a} ✓ (parentheses don't change meaning)
+\item \texttt{(\textbackslash x.\textbackslash y.x) a b} → \texttt{a} ✓ (true returns first argument)
+\item \texttt{(\textbackslash x.\textbackslash y.y) a b} → \texttt{b} ✓ (true returns second argument)
+\item Church numeral stopped after certain amount of reductions due to implementation limits (should represent 2 and 3)
+\end{itemize}
+
+\textbf{Question 3: Capture Avoiding Substitution}
+
+The substitution algorithm works as follows:
+
+\begin{lstlisting}[language=Python]
+def substitute(tree, name, replacement):
+if tree[0] == 'var':
+if tree[1] == name:
+return replacement # n [r/n] → r
+else:
+return tree # x [r/n] → x
+elif tree[0] == 'lam':
+if tree[1] == name:
+return tree # \n.e [r/n] → \n.e
+else:
+fresh_name = name_generator.generate()
+return ('lam', fresh_name,
+substitute(substitute(tree[2], tree[1], ('var', fresh_name)),
+name, replacement))
+# \x.e [r/n] → (\fresh.(e[fresh/x])) [r/n]
+elif tree[0] == 'app':
+return ('app', substitute(tree[1], name, replacement),
+substitute(tree[2], name, replacement))
+\end{lstlisting}
+
+\textbf{Key Insight:} When substituting into \texttt{\textbackslash x.e} where \texttt{x ≠ name}, we generate a fresh variable to avoid capture, rename \texttt{x} to the fresh name in the body, then perform the substitution.
+
+\textbf{Question 5: Minimal Working Example that doesn't reduce to normal form}
+
+The smallest meaningful MWE that fails in the original interpreter:
+\begin{lstlisting}
+a ((\x.x) b)
+\end{lstlisting}
+
+\textbf{Why this fails:}
+\begin{itemize}
+\item Current behavior: \texttt{a ((\textbackslash x.x) b)} stays as \texttt{a ((\textbackslash x.x) b)}
+\item Expected behavior: Should reduce to \texttt{a b}
+\item Reason: The original interpreter only evaluates the function position, not the argument position
+\end{itemize}
+
+\textbf{Question 7: Tracing Evaluation Steps}
+
+Tracing \texttt{((\textbackslash m.\textbackslash n. m n) (\textbackslash f.\textbackslash x. f (f x))) (\textbackslash f.\textbackslash x. f x)}:
+
+\begin{verbatim}
+((\m.\n. m n) (\f.\x. f (f x))) (\f.\x. f x)
+→ ((\n. (\f.\x. f (f x)) n)) (\f.\x. f x)
+→ ((\f.\x. f (f x)) (\f.\x. f x))
+→ (\x. (\f.\x. f x) ((\f.\x. f x) x))
+→ (\x. (\f.\x. f x) (\x. x x)) [incorrect - demonstrates capture issue]
+\end{verbatim}
+
+The trace revealed that the original interpreter didn't fully reduce expressions due to incomplete evaluation strategy.
+
+\textbf{Quetion 8: Recursive Evauluation Trace}
+\begin{verbatim}
+12: eval(((\m.\n. m n) (\f.\x. f (f x))) (\f.\x. f x))
+    12: eval((\m.\n. m n) (\f.\x. f (f x)))
+        12: eval(\m.\n. m n)
+            return: (\m.\n. m n)
+        12: eval(\f.\x. f (f x))
+            return: (\f.\x. f (f x))
+        app of lam: substitute((\n. m n), m, (\f.\x. f (f x)))
+        39: substitute((\n. m n), m, (\f.\x. f (f x)))
+            39: substitute(\n. m n, m, (\f.\x. f (f x)))
+                39: substitute(m n, m, (\f.\x. f (f x)))
+                    39: substitute(m, m, (\f.\x. f (f x)))
+                        return: (\f.\x. f (f x))
+                    39: substitute(n, m, (\f.\x. f (f x)))
+                        return: n
+                    return: ((\f.\x. f (f x)) n)
+                return: (\n. ((\f.\x. f (f x)) n))
+        return: (\n. ((\f.\x. f (f x)) n))
+    12: eval((\n. ((\f.\x. f (f x)) n)) (\f.\x. f x))
+        app of lam: substitute(((\f.\x. f (f x)) n), n, (\f.\x. f x))
+        39: substitute(((\f.\x. f (f x)) n), n, (\f.\x. f x))
+            39: substitute((\f.\x. f (f x)), n, (\f.\x. f x))
+                return: (\f.\x. f (f x))
+            39: substitute(n, n, (\f.\x. f x))
+                return: (\f.\x. f x)
+            return: ((\f.\x. f (f x)) (\f.\x. f x))
+        return: ((\f.\x. f (f x)) (\f.\x. f x))
+    12: eval((\f.\x. f (f x)) (\f.\x. f x))
+        12: eval(\f.\x. f (f x))
+            return: (\f.\x. f (f x))
+        12: eval(\f.\x. f x)
+            return: (\f.\x. f x)
+        app of lam: substitute(\x. f (f x), f, (\f.\x. f x))
+        39: substitute(\x. f (f x), f, (\f.\x. f x))
+            39: substitute(f (f x), f, (\f.\x. f x))
+                39: substitute(f, f, (\f.\x. f x))
+                    return: (\f.\x. f x)
+                39: substitute((f x), f, (\f.\x. f x))
+                    39: substitute(f, f, (\f.\x. f x))
+                        return: (\f.\x. f x)
+                    39: substitute(x, f, (\f.\x. f x))
+                        return: x
+                    return: ((\f.\x. f x) x)
+                return: ((\f.\x. f x) ((\f.\x. f x) x))
+            return: (\x. ((\f.\x. f x) ((\f.\x. f x) x)))
+        return: (\x. ((\f.\x. f x) ((\f.\x. f x) x)))
+    12: eval(\x. ((\f.\x. f x) ((\f.\x. f x) x)))
+        return: (\x. ((\f.\x. f x) ((\f.\x. f x) x)))
+final result: (\x. ((\f.\x. f x) ((\f.\x. f x) x)))
+\end{verbatim}
+
+In the trace above i substituted the actual letter vs what the computer using var1-5 to represent variables internally.
+
+\subsubsection{Questions}
+
+In lambda calculus, the choice between applicative order (evaluating arguments first) and normal order (evaluating function first) evaluation strategies can lead to different termination behavior. How does this choice in our interpreter implementation reflect the fundamental trade-offs between efficiency and completeness in computational systems, and what does this reveal about the relationship between evaluation strategies and the Church-Rosser theorem in guaranteeing consistent results regardless of evaluation order?
+
 \section{Essay}
 
 \section{Evidence of Participation}
