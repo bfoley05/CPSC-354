@@ -940,6 +940,80 @@ In lambda calculus, the choice between applicative order (evaluating arguments f
 
 \section{Essay}
 
+When I started this course, I thought of programming languages mainly as tools for getting computers
+to do things, run algorithms, and a little bit of how tools and lanugages like python work. Lambda calculus
+was interesting in a theoretical way, but it felt very different from the code I write every day. With lean,
+the abstract concepts about proofs, computation, and logic came together in a way that actually made sense for real programming.
+
+The first thing that I truly understood was how Lean forced me to be precise about things I normally take for granted.
+In Week 8, when we had to prove basic arithmetic facts like 1 + a = succ(a), I realized I'd been using these
+properties for years without ever thinking about why they're true. Writing the Lean proof:
+    theorem one_add_eq_succ : ∀ (a : ℕ), 1 + a = Nat.succ a := by
+    intro a
+    rw [show (1 : ℕ) = Nat.succ 0 by rfl]
+    rw [add_succ]
+    rw [add_zero]
+made me actually think about what "1" means (it's succ(0)), and how addition is defined recursively.
+This was talked about a lot in discrete math but learnign to formalize it in Lean made me understand it much more.
+Each rw command felt like understanding a new layer of abstraction I didn't even know was there.
+
+This reminded me of when we implemented the lambda calculus interpreter in Python. There were
+moments where the interpreter wouldn't reduce an expression that "obviously" should reduce, and
+I had to debug by tracing through exactly how substitution worked.
+
+The interesting part to me came in Weeks 10 and 11 when we started proving logical statements.
+The fact that P → Q (P implies Q) is represented as a function from proofs of P to proofs of Q was
+super interesting to me.
+
+When I wrote:
+
+    theorem and_comm : P ∧ Q → Q ∧ P := by
+    intro h
+    exact ⟨h.right, h.left⟩
+
+I realized this wasn't just proving something about logic; it was writing a program that transforms
+evidence. The angle brackets ⟨h.right, h.left⟩ aren't just notation, they're actually constructing a
+proof of Q ∧ P from the components of the proof of P ∧ Q, like constructing a tuple in Python or another
+programing language.
+
+This connected back to our work with lambda calculus, where functions aren't just computation devices
+but can represent logical reasoning too. It made me think differently about the code I write: every time
+I create a function that transforms data, there's a logical interpretation of what that function guarantees
+about the relationship between input and output. Theres also this level of abstarction that I never really
+thought about before.
+
+At first, Lean felt like just another academic exercise. But the seminar I attended with Shaun Andrews
+from Boeing changed my perspective. He talked about data validation in aircraft systems and how they need
+to be absolutely certain about their analysis. While he wasn't using Lean specifically, the same need for
+justification applies and it made me think about how lean could be used in real-world scenarios.
+
+In my own internship, I've worked with dashboards that track system performance. A small bug in how data gets
+aggregated could lead to wrong decisions being made. Working with Lean made me think, what if we could prove
+that our data transformations preserve certain properties? What if we could guarantee that our aggregations are
+commutative and associative (like we proved addition to be)?
+
+The experience also changed how I debug. Now when I hit a weird bug, I find myself thinking: "What are my assumptions
+here? What exactly does this function promise about its output?" It's like doing mental Lean proofs—breaking down
+why I think something should work, and looking for where my reasoning might have a hole. We also learned how to trace
+inside of the debugger and that has helped me a lot as well.
+
+I used to think formal verification was only for aerospace or medical devices, super high-stakes systems where
+failure isn't an option. Now I see it differently. Even in everyday web development, being able to reason precisely
+about your code matters. The concepts we learned in Lean—dependent types, constructive logic, inductive proofs, are
+making their way into practical tools.
+
+Languages like TypeScript are getting more sophisticated type systems that can catch more errors at compile time.
+Rust's ownership system feels like it's enforcing logical properties about resource usage. These aren't theorem
+provers, but they're inspired by the same ideas about using the type system to prove things about your program.
+
+Lean started as just another tool to learn in this course, but it ended up changing how I think about programming
+fundamentally. It helped me bridge the gap between the abstract theory we learned in the first half of the semester and the
+practical programming I do outside class. The biggest takeaway wasn't how to use Lean specifically, but learning to
+think more carefully about assumptions, proofs, and guarantees in my code.
+
+Software keeps getting more complex and more critical to everyday life, this kind of rigorous
+thinking has become extremly important to the workforce. Whether I'm working on a class project, an internship, or eventually a
+job, this mindset of breaking things down to first principles and proving they work, not just hoping they do.
 \section{Evidence of Participation}
 
 \begin{itemize}
@@ -974,6 +1048,7 @@ an algorithm, or debugging a complex state machine. For future iterations of the
 earlier hands-on projects and programming assignments, to help understand the theory immediately.
 
 \begin{thebibliography}{99}
+[1] Microsoft Research. "The Lean Theorem Prover." Lean Community, 2023. https://leanprover.github.io/
 \bibitem[BLA]{bla} Author, \href{https://en.wikipedia.org/wiki/LaTeX}{Title}, Publisher, Year.
 \end{thebibliography}
 
